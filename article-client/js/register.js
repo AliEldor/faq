@@ -18,7 +18,7 @@ async function handleRegister(event) {
       "../../../faq/article-server/apis/v1/register.php",
       formData
     );
-
+ 
     if (response.data.success === true) {
       //console.log("Registration successful, redirecting");
       window.location.href = "../../../faq/article-client/index.html";
@@ -30,5 +30,6 @@ async function handleRegister(event) {
     }
   } catch (err) {
     alert("Connection error. Please try again later.");
+    console.log(err)
   }
 }

@@ -40,30 +40,40 @@ class User{
         }
 }
 
-public function read( $email,){
-    $user = new UserSkeleton();
+public function read( $email){
 
 
     $sql = "Select * FROM users where email =?";
     $stmt=$this->conn->prepare($sql);
-    $stmt->bind_params("s",$email);
+
+    if (!$stmt) {
+        return ["success" => false, "message" => "SQL Error: " . $this->conn->error];
+    }
+
+    $stmt->bind_param("s",$email);
+    $stmt->execute();
     $result= $stmt->get_result();
-    return $result->fetch_assoc;
+    return $result->fetch_assoc();
 
 }
 
 
-public function update($userId,$fullname,$email,$password){
+public function update($id,$fullname,$email,$password){
     $user = new UserSkeleton();
-    $user->setId($userId);
+    $user->setId($id);
     $user->setFullname($fullname);
     $user->setEmail($email);
     $user->setPassword($password);
 
-    $sql= "UPDATE users SET fullname=?, email=?, password=? WHERE userId=?";
+    $sql= "UPDATE users SET full_name=?, email=?, password=? WHERE id=?";
 
     $stmt=$this->conn->prepare($sql);
-    $stmt->bind_params("sssi",$user->getFullname() , $user->getEmail(),$user->getPassword(),$user->getId());
+
+    if (!$stmt) {
+        return ["success" => false, "message" => "SQL Error: " . $this->conn->error];
+    }
+
+    $stmt->bind_param("sssi",$user->getFullname() , $user->getEmail(),$user->getPassword(),$user->getId());
 
     if($stmt->execute()){
         return[

@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
   const registerForm = document.getElementById("register-form");
-  
 
   //register
 
@@ -9,40 +8,27 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-async function handleRegister(event){
-    event.preventDefault();
-    try{
-      //console.log("entered form")
+async function handleRegister(event) {
+  event.preventDefault();
+  try {
+    
     const formData = new FormData(event.target);
 
-    
+    const response = await axios.post(
+      "../../../faq/article-server/apis/v1/register.php",
+      formData
+    );
 
-    //console.log("Sending request to server...");
-    const response =await axios.post("../../../faq/article-server/apis/v1/register.php",formData);
-    
-    
-
-    if(response.data.success ===true){
+    if (response.data.success === true) {
       //console.log("Registration successful, redirecting");
-      window.location.href="../home.html";
-
-    }
-    
-    else{
+      window.location.href = "../../../faq/article-client/index.html";
+    } else {
       //console.log("Registration failed with response:", response.data);
-      alert("Registration error: " + (response.data.message || "Unknown error"));
+      alert(
+        "Registration error: " + (response.data.message || "Unknown error")
+      );
     }
+  } catch (err) {
+    alert("Connection error. Please try again later.");
   }
-
-catch(err){
-  alert("Connection error. Please try again later.");
- 
-
-}
-    
-
-
-
-    
-
 }

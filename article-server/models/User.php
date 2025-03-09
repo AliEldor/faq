@@ -53,7 +53,30 @@ public function read( $email,){
 }
 
 
+public function update($userId,$fullname,$email,$password){
+    $user = new UserSkeleton();
+    $user->setId($userId);
+    $user->setFullname($fullname);
+    $user->setEmail($email);
+    $user->setPassword($password);
 
+    $sql= "UPDATE users SET fullname=?, email=?, password=? WHERE userId=?";
+
+    $stmt=$this->conn->prepare($sql);
+    $stmt->bind_params("sssi",$user->getFullname() , $user->getEmail(),$user->getPassword(),$user->getId());
+
+    if($stmt->execute()){
+        return[
+            "success"=>true,
+            "message"=>"user updated"
+        ];
+    }
+    else{
+        return[
+            "success"=>false,
+            "message"=>"Update failed: " . $stmt->error
+        ];
+    }
 
 
 

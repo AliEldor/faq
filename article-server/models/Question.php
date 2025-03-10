@@ -22,7 +22,9 @@ class Question{
             return ["success" => false, "message" => "SQL Error: " . $this->conn->error];
         }
 
-        $stmt->bind_param("ss", $quest->getQuestion(), $quest->getAnswer());
+        $trimmedQuestion = trim($question);
+$trimmedAnswer = trim($answer);
+mysqli_stmt_bind_param($stmt, "ss", $trimmedQuestion, $trimmedAnswer);
 
         if ($stmt->execute()) {
             return [
@@ -39,18 +41,22 @@ class Question{
 
     }
 
-    public function read($id) {
-        $sql = "SELECT * FROM questions WHERE id = ?";
+    public function read() {
+        $sql = "SELECT * FROM questions ORDER BY id DESC";
         $stmt = $this->conn->prepare($sql);
 
         if (!$stmt) {
             return ["success" => false, "message" => "SQL Error: " . $this->conn->error];
         }
 
-        $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_assoc();
+        $quest=[];
+        while ($row = $result->fetch_assoc()) {
+            $quest[] = $row;
+        }
+
+        return $quest;
     }
 }

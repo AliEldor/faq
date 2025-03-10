@@ -7,7 +7,7 @@ header("Content-Type: application/json");
 
 try{
 if($_SERVER["REQUEST_METHOD" ] !== "POST"){
-    throw new Exception("Invalid request method");;
+    throw new Exception("Invalid request method");
     
 }
 

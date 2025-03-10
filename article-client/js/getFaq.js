@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addFaqBtn = document.getElementById('add-faq-btn');
     if (addFaqBtn) {
         addFaqBtn.addEventListener('click', function() {
-            window.location.href = '../faq.html';
+            window.location.href = '../../../faq/article-client/faq.html';
         });
     }
 
@@ -79,6 +79,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.style.display = 'none';
             }
         });
+    }
+
+    const logoutBtn = document.querySelector('.logout');
+    function handleLogout() {
+        localStorage.removeItem("user_Id");
+        localStorage.removeItem("user_fullname");
+        window.location.href = "../index.html";
+    }
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
     }
 
     

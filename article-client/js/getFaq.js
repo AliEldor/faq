@@ -59,7 +59,27 @@ document.addEventListener('DOMContentLoaded', () => {
     
     fetchFaqs();
 
-    
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            filterFAQs(this.value);
+        });
+    }
+
+    function filterFAQs(searchTerm) {
+        const faqCards = document.querySelectorAll('.faq-card');
+        const lowerSearchTerm = searchTerm.toLowerCase();
+        
+        faqCards.forEach(card => {
+            const question = card.querySelector('.faq-question').textContent.toLowerCase();
+            const answer = card.querySelector('.faq-answer').textContent.toLowerCase();
+            
+            if (question.includes(lowerSearchTerm) || answer.includes(lowerSearchTerm)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
 
     
 
